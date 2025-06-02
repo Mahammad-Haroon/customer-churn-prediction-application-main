@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <style>
+    body {
+        background-image: url("{{ url_for('static', filename='img/bg.jpeg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: rgb(255, 255, 255);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        position: relative; /* Needed for the overlay */
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4); /* black shade overlay */
+        z-index: 0;
+    }
+
+    .overlay, .prediction-container, .prediction, .churn, .not-churn {
+        position: relative; /* So it appears above the background overlay */
+        z-index: 1;
+    }
+
+    .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .prediction-container {
+        background-color: rgba(248, 0, 0, 0.1); /* slightly transparent */
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .prediction {
+        font-size: 20px;
+    }
+
+    .churn {
+        color: #ff4c4c;
+        font-weight: bold;
+    }
+
+    .not-churn {
+        color: #4cff4c;
+        font-weight: bold;
+    }
+</style>
+
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <div class="prediction-container">
+                <h1>Prediction Result</h1>
+                <p class="prediction">Model predicted that Customer is likely to:</p>
+                <h2 class="{% if data['prediction'] == 'Churn' %}churn{% else %}not-churn{% endif %}">
+                    {{ data['prediction'] }}
+                </h2>
+                <p class="prediction">Probability of Customer Churning: {{ data['predict_probabality'] }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
